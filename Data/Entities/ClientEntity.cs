@@ -1,7 +1,10 @@
-﻿namespace Data.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data.Entities;
 
 public class ClientEntity
 {
+    [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
     public string? ImageFileName { get; set; }
     public string ClientName { get; set; } = null!;

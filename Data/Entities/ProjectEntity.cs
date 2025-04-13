@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Entities;
 
 public class ProjectEntity
 {
+    [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
     public string? ImageFileName { get; set; }
     public string ProjectName { get; set; } = null!;
