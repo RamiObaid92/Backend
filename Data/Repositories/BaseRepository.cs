@@ -4,7 +4,17 @@ using System.Linq.Expressions;
 
 namespace Data.Repositories;
 
-public abstract class BaseRepository<TEntity> where TEntity : class
+public interface IBaseRepository<TEntity> where TEntity : class
+{
+    Task<bool> AddAsync(TEntity entity);
+    Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<bool> UpdateAsync(TEntity entity);
+}
+
+public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
     protected readonly DbSet<TEntity> _table;
     protected readonly ApplicationDbContext _context;
@@ -22,6 +32,24 @@ public abstract class BaseRepository<TEntity> where TEntity : class
         await _table.AddAsync(entity);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        if (predicate == null) return false;
+
+        var entity = await _table.FirstOrDefaultAsync(predicate);
+        if (entity == null) return false;
+
+        _table.Remove(entity);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        var result = await _table.AnyAsync(predicate);
+        return result;
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -44,24 +72,4 @@ public abstract class BaseRepository<TEntity> where TEntity : class
         await _context.SaveChangesAsync();
         return true;
     }
-
-    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> predicate)
-    {
-        if (predicate == null) return false;
-
-        var entity = await _table.FirstOrDefaultAsync(predicate);
-        if (entity == null) return false;
-
-        _table.Remove(entity);
-        await _context.SaveChangesAsync();
-        return true;
-    }
-
-    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
-    {
-        var result = await _table.AnyAsync(predicate);
-        return result;
-    }
 }
-
-

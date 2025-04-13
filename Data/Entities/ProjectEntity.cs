@@ -4,7 +4,7 @@ namespace Data.Entities;
 
 public class ProjectEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string? ImageFileName { get; set; }
     public string ProjectName { get; set; } = null!;
     public string? Description { get; set; }

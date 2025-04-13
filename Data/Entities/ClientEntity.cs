@@ -2,7 +2,7 @@
 
 public class ClientEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string? ImageFileName { get; set; }
     public string ClientName { get; set; } = null!;
     public string? Phone {  get; set; }
