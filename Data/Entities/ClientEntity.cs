@@ -10,6 +10,8 @@ public class ClientEntity
     public string ClientName { get; set; } = null!;
     public string? Phone {  get; set; }
     public string Email { get; set; } = null!;
+    public DateTime Created { get; set; } = DateTime.UtcNow;
+    public bool IsActive { get; set; } = true;
 
     public ClientAddressEntity? ClientAddress { get; set; }
 

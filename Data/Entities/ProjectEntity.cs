@@ -19,7 +19,7 @@ public class ProjectEntity
 
     [Column(TypeName = "date")]
     public DateTime EndDate { get; set; }
-    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
     [ForeignKey(nameof(ProjectOwner))]
     public string ProjectOwnerId { get; set; } = null!;
