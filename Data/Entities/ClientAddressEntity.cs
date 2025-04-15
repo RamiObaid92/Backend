@@ -9,7 +9,7 @@ public class ClientAddressEntity
     public Guid ClientId { get; set; }
     public ClientEntity Client { get; set; } = null!;
     public string StreetName { get; set; } = null!;
-    public string CityName { get; set; } = null!;
     public string PostalCode { get; set; } = null!;
+    public string CityName { get; set; } = null!;
     public string? BillingReference { get; set; }
 }

@@ -13,7 +13,7 @@ public class ClientEntity
     public DateTime Created { get; set; } = DateTime.UtcNow;
     public bool IsActive { get; set; } = true;
 
-    public ClientAddressEntity? ClientAddress { get; set; }
+    public ClientAddressEntity? Address { get; set; }
 
     public virtual ICollection<ProjectEntity> Projects { get; set; } = [];
 }
