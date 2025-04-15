@@ -1,7 +1,6 @@
 ﻿using Data.Context;
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.Linq.Expressions;
 
 namespace Data.Repositories;

@@ -1,6 +1,5 @@
 ﻿using Data.Context;
 using Data.Entities;
-using System.Runtime.CompilerServices;
 
 namespace Data.Repositories;
 
