@@ -46,23 +46,11 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
         return true;
     }
 
-    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
-    {
-        var result = await _table.AnyAsync(predicate);
-        return result;
-    }
+    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate) => await _table.AnyAsync(predicate);
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-    {
-        var entities = await _table.ToListAsync();
-        return entities;
-    }
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync() => await _table.ToListAsync();
 
-    public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
-    {
-        var entity = await _table.FirstOrDefaultAsync(predicate);
-        return entity;
-    }
+    public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate) => await _table.FirstOrDefaultAsync(predicate);
 
     public virtual async Task<bool> UpdateAsync(TEntity entity)
     {
