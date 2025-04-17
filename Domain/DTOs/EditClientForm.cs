@@ -11,10 +11,7 @@ public class EditClientForm
     public IFormFile? NewImageFile { get; set; }
 
     [Required]
-    public string FirstName { get; set; } = null!;
-
-    [Required]
-    public string LastName { get; } = null!;
+    public string ClientName { get; set; } = null!;
 
     [Required]
     [EmailAddress]
@@ -23,15 +20,14 @@ public class EditClientForm
     public string? Phone { get; set; }
 
     [Required]
-    public string Title { get; set; } = null!;
+    public string StreetName { get; set; } = null!;
 
     [Required]
-    public string MemberRole { get; set; } = null!;
+    public string PostalCode { get; set; } = null!;
 
-    public string? StreetName { get; set; }
+    [Required]
+    public string CityName { get; set; } = null!;
 
-    public string? PostalCode { get; set; }
-
-    public string? CityName { get; set; }
+    public string? BillingReference { get; set; }
 }
 

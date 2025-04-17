@@ -9,5 +9,5 @@ public class ClientModel
     public string Email { get; set; } = null!;
     public string? City { get; set; }
     public DateTime Created { get; set; }
-    public string IsActive { get; set; } = null!;
+    public bool IsActive { get; set; }
 }
