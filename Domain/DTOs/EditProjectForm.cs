@@ -33,8 +33,6 @@ public class EditProjectForm
     public decimal Budget { get; set; }
 
     [Required]
-    public string StatusId { get; set; } = null!;
-
-    public string StatusName { get; set; } = null!;
+    public int StatusId { get; set; }
 }
 
