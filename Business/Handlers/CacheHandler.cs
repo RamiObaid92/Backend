@@ -28,4 +28,4 @@ public class CacheHandler<T>(IMemoryCache cache) : ICacheHandler<T>
     public void RemoveCache(string cacheKey) => _cache.Remove(cacheKey);
 }
 
-// Tog hjälp av AI för att lära mig och implementera CacheHandlern.
+// Tog hjälp av AI för att lära mig och skapa en CacheHandlern.
