@@ -7,11 +7,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Business.Services;
 
-
-// Gett the user repository, user manager, and sign-in manager from the constructor
-// This class is responsible for user-related operations
-// It uses the user repository to interact with the database and the user manager and sign-in manager for authentication
-// The methods needed for this class are the following: SignUpAsync, SignInAsync, SignOutAsync, GetUserByIdAsync, GetUserByEmailAsync, UpdateUserAsync, DeleteUserAsync
 public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager)
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
