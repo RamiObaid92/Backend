@@ -1,5 +1,5 @@
-﻿using Business.Handlers;
-using Business.Mappers;
+﻿using Business.Factories;
+using Business.Handlers;
 using Data.Repositories;
 using Domain.DTOs;
 using Domain.Models;
@@ -30,8 +30,8 @@ public class ClientService(IClientRepository clientRepository, ICacheHandler<IEn
 
     public async Task<ClientModel?> GetClientByIdAsync(Guid id)
     {
-        var model = _cacheHandler.GetFromCache(_cacheKey)?.FirstOrDefault(x => x.Id == id);
-        if (model is not null) return model;
+        var entity = _cacheHandler.GetFromCache(_cacheKey)?.FirstOrDefault(x => x.Id == id);
+        if (entity is not null) return entity;
 
         var models = await UpdateCacheAsync();
         return models.FirstOrDefault(x => x.Id == id);

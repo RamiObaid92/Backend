@@ -2,7 +2,7 @@
 using Domain.DTOs;
 using Domain.Models;
 
-namespace Business.Mappers;
+namespace Business.Factories;
 
 public static class ProjectFactory
 {
