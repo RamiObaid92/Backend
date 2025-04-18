@@ -23,6 +23,7 @@ public static class ProjectFactory
         };
     }
 
+    // Tog hjälp av AI med hur man optimerar UpdateEntity metoden. Så att den inte replacear hela objektet utan bara uppdaterar de fälten som har ändrats.
     public static void UpdateEntity(ProjectEntity entity, EditProjectForm formData, string? newImageFileName = null)
     {
         if (entity is null || formData is null) return;
