@@ -35,4 +35,3 @@ public class EditProjectForm
     [Required]
     public int StatusId { get; set; }
 }
-

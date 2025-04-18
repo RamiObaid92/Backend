@@ -23,22 +23,19 @@ public static class ProjectFactory
         };
     }
 
-    public static ProjectEntity ToEntity(EditProjectForm? formData, string? newImageFileName = null)
+    public static void UpdateEntity(ProjectEntity entity, EditProjectForm formData, string? newImageFileName = null)
     {
-        if (formData is null) return null!;
-        return new ProjectEntity
-        {
-            Id = formData.Id,
-            ImageFileName = newImageFileName,
-            ProjectName = formData.ProjectName,
-            Description = formData.Description,
-            Budget = formData.Budget,
-            StartDate = formData.StartDate,
-            EndDate = formData.EndDate,
-            ProjectOwnerId = formData.ProjectOwnerId,
-            ClientId = formData.ClientId,
-            StatusId = formData.StatusId
-        };
+        if (entity is null || formData is null) return;
+
+        entity.ProjectName = formData.ProjectName;
+        entity.Description = formData.Description;
+        entity.Budget = formData.Budget;
+        entity.StartDate = formData.StartDate;
+        entity.EndDate = formData.EndDate;
+        entity.ProjectOwnerId = formData.ProjectOwnerId;
+        entity.ClientId = formData.ClientId;
+        entity.StatusId = formData.StatusId;
+        entity.ImageFileName = newImageFileName ?? formData.ImageFileName;
     }
 
     public static ProjectModel ToModel(ProjectEntity? entity)
