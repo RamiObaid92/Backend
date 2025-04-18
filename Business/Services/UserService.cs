@@ -8,15 +8,16 @@ namespace Business.Services;
 
 public interface IUserService
 {
-    Task<UserModel?> SignInAsync(SignInForm formData);
+    Task<AuthResult?> SignInAsync(SignInForm formData);
     Task SignOutAsync();
     Task<UserModel?> SignUpAsync(SignUpForm formData);
 }
 
-public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager) : IUserService
+public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ITokenService tokenService) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task<UserModel?> SignUpAsync(SignUpForm formData)
     {
@@ -33,15 +34,19 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         return null;
     }
 
-    public async Task<UserModel?> SignInAsync(SignInForm formData)
+    // Modifierade SignInAsync för att lägga till token vid SignIn och tog hjälp av AI med hur man gör det.
+    public async Task<AuthResult?> SignInAsync(SignInForm formData)
     {
         var result = await _signInManager.PasswordSignInAsync(formData.Email, formData.Password, isPersistent: formData.RememberMe, lockoutOnFailure: false);
-        if (result.Succeeded)
-        {
-            var user = await _userManager.FindByEmailAsync(formData.Email);
-            return UserFactory.ToModel(user);
-        }
-        return null;
+        if (!result.Succeeded) return null;
+
+        var user = await _userManager.FindByEmailAsync(formData.Email);
+        var roles = await _userManager.GetRolesAsync(user!);
+
+        var token = _tokenService.GenerateToken(user!, roles);
+        var model = UserFactory.ToModel(user);
+
+        return new AuthResult(model, token);
     }
 
     public async Task SignOutAsync()
