@@ -1,4 +1,4 @@
-using Business.Handlers;
+﻿using Business.Handlers;
 using Business.Services;
 using Data.Context;
 using Data.Entities;
@@ -23,6 +23,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 builder.Services.AddIdentity<UserEntity, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
+// Tog hjälp av AI för att skapa det jag behöver för Swagger och lägga till JWT authentication där.
 builder.Services.AddSwaggerGen(options =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -32,14 +33,14 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Alpha BackOffice API",
-        Description = "Standarddokumentation f�r Alpha BackOffice."
+        Title = "Alpha Portal API",
+        Description = "Standard Documentation for Alpha Portal API"
     });
 
     var jwtScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Description = "JWT ? skriv: Bearer {token}",
+        Description = "JWT - Write: Bearer {token}",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
@@ -163,8 +164,8 @@ app.MapOpenApi();
 app.UseHttpsRedirection();
 app.UseCors(x  => x.AllowAnyOrigin().AllowCredentials().AllowAnyHeader());
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
