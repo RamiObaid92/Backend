@@ -39,7 +39,5 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
     }
 
     public async Task SignOutAsync()
-    {
-        await _signInManager.SignOutAsync();
-    }
+        => await _signInManager.SignOutAsync();
 }

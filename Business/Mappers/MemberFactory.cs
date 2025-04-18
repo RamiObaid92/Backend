@@ -4,7 +4,7 @@ using Domain.Models;
 
 namespace Business.Mappers;
 
-public class MemberFactory
+public static class MemberFactory
 {
     public static MemberEntity ToEntity(AddMemberForm? formData, string? newImageFileName = null)
     {

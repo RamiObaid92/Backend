@@ -13,7 +13,8 @@ public class CacheHandler<T>(IMemoryCache cache) : ICacheHandler<T>
 {
     private readonly IMemoryCache _cache = cache;
 
-    public T? GetFromCache(string cacheKey) => _cache.Get<T>(cacheKey);
+    public T? GetFromCache(string cacheKey) 
+        => _cache.Get<T>(cacheKey);
 
     public T SetCache(string cacheKey, T data, int minutesToCache = 10)
     {
@@ -25,7 +26,8 @@ public class CacheHandler<T>(IMemoryCache cache) : ICacheHandler<T>
         return data;
     }
 
-    public void RemoveCache(string cacheKey) => _cache.Remove(cacheKey);
+    public void RemoveCache(string cacheKey) 
+        => _cache.Remove(cacheKey);
 }
 
 // Tog hjälp av AI för att lära mig och skapa en CacheHandlern.
