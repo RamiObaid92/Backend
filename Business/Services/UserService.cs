@@ -26,15 +26,12 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
 
         var entity = UserFactory.ToEntity(formData);
         var result = await _userManager.CreateAsync(entity, formData.Password);
-        if (result.Succeeded)
-        {
-            await _signInManager.SignInAsync(entity, isPersistent: false);
-            return UserFactory.ToModel(entity);
-        }
-        return null;
+        if (!result.Succeeded) return null;
+
+        return UserFactory.ToModel(entity);
     }
 
-    // Modifierade SignInAsync för att lägga till token vid SignIn och tog hjälp av AI med hur man gör det.
+    // Modifierade SignInAsync för att lägga till token till cookie vid SignIn. Tog hjälp av AI med hur man gör det.
     public async Task<AuthResult?> SignInAsync(SignInForm formData)
     {
         var result = await _signInManager.PasswordSignInAsync(formData.Email, formData.Password, isPersistent: formData.RememberMe, lockoutOnFailure: false);
