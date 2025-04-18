@@ -7,7 +7,16 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Business.Services;
 
-public class ClientService(IClientRepository clientRepository, ICacheHandler<IEnumerable<ClientModel>> cacheHandler)
+public interface IClientService
+{
+    Task<ClientModel?> CreateClientAsync(AddClientForm formData);
+    Task<bool> DeleteClientAsync(Guid id);
+    Task<IEnumerable<ClientModel>> GetAllClientsAsync();
+    Task<ClientModel?> GetClientByIdAsync(Guid id);
+    Task<ClientModel?> UpdateClientAsync(EditClientForm formData);
+}
+
+public class ClientService(IClientRepository clientRepository, ICacheHandler<IEnumerable<ClientModel>> cacheHandler) : IClientService
 {
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly ICacheHandler<IEnumerable<ClientModel>> _cacheHandler = cacheHandler;
@@ -25,7 +34,7 @@ public class ClientService(IClientRepository clientRepository, ICacheHandler<IEn
         return models.FirstOrDefault(x => x.Id == entity.Id);
     }
 
-    public async Task<IEnumerable<ClientModel>> GetAllClientsAsync() 
+    public async Task<IEnumerable<ClientModel>> GetAllClientsAsync()
         => _cacheHandler.GetFromCache(_cacheKey) ?? await UpdateCacheAsync();
 
     public async Task<ClientModel?> GetClientByIdAsync(Guid id)
@@ -56,7 +65,7 @@ public class ClientService(IClientRepository clientRepository, ICacheHandler<IEn
         return entity;
     }
 
-    public async Task<IEnumerable<ClientModel>> UpdateCacheAsync()
+    private async Task<IEnumerable<ClientModel>> UpdateCacheAsync()
     {
         var entities = await _clientRepository.GetAllAsync();
         var models = entities.Select(ClientFactory.ToModel).ToList();

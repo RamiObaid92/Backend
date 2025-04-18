@@ -6,7 +6,16 @@ using Domain.Models;
 
 namespace Business.Services;
 
-public class ProjectService(IProjectRepository projectRepository, ICacheHandler<IEnumerable<ProjectModel>> cacheHandler)
+public interface IProjectService
+{
+    Task<ProjectModel?> CreateProjectAsync(AddProjectForm formData);
+    Task<bool> DeleteProjectAsync(Guid id);
+    Task<IEnumerable<ProjectModel>> GetAllProjectsAsync();
+    Task<ProjectModel?> GetProjectByIdAsync(Guid id);
+    Task<ProjectModel?> UpdateProjectAsync(EditProjectForm formData);
+}
+
+public class ProjectService(IProjectRepository projectRepository, ICacheHandler<IEnumerable<ProjectModel>> cacheHandler) : IProjectService
 {
     private readonly IProjectRepository _projectRepository = projectRepository;
     private readonly ICacheHandler<IEnumerable<ProjectModel>> _cacheHandler = cacheHandler;
@@ -54,7 +63,7 @@ public class ProjectService(IProjectRepository projectRepository, ICacheHandler<
         return entity;
     }
 
-    public async Task<IEnumerable<ProjectModel>> UpdateCacheAsync()
+    private async Task<IEnumerable<ProjectModel>> UpdateCacheAsync()
     {
         var entities = await _projectRepository.GetAllAsync();
         var models = entities.Select(ProjectFactory.ToModel).ToList();

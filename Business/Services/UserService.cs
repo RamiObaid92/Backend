@@ -6,7 +6,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Business.Services;
 
-public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager)
+public interface IUserService
+{
+    Task<UserModel?> SignInAsync(SignInForm formData);
+    Task SignOutAsync();
+    Task<UserModel?> SignUpAsync(SignUpForm formData);
+}
+
+public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;

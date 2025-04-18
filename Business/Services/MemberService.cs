@@ -6,7 +6,16 @@ using Domain.Models;
 
 namespace Business.Services;
 
-public class MemberService(IMemberRepository memberRepository, ICacheHandler<IEnumerable<MemberModel>> cacheHandler)
+public interface IMemberService
+{
+    Task<MemberModel?> CreateMemberAsync(AddMemberForm formData);
+    Task<bool> DeleteMemberAsync(Guid id);
+    Task<IEnumerable<MemberModel>> GetAllMembersAsync();
+    Task<MemberModel?> GetMemberByIdAsync(Guid id);
+    Task<MemberModel?> UpdateMemberAsync(EditMemberForm formData);
+}
+
+public class MemberService(IMemberRepository memberRepository, ICacheHandler<IEnumerable<MemberModel>> cacheHandler) : IMemberService
 {
     private readonly IMemberRepository _memberRepository = memberRepository;
     private readonly ICacheHandler<IEnumerable<MemberModel>> _cacheHandler = cacheHandler;
@@ -55,7 +64,7 @@ public class MemberService(IMemberRepository memberRepository, ICacheHandler<IEn
         return entity;
     }
 
-    public async Task<IEnumerable<MemberModel>> UpdateCacheAsync()
+    private async Task<IEnumerable<MemberModel>> UpdateCacheAsync()
     {
         var entities = await _memberRepository.GetAllAsync();
         var models = entities.Select(MemberFactory.ToModel).ToList();
