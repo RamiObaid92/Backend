@@ -159,6 +159,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 var app = builder.Build();
 
+await WebApi.Seeders.RoleSeeder.SeedRolesAsync(app.Services);
+
 app.MapOpenApi();
 
 app.UseHttpsRedirection();

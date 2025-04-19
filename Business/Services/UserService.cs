@@ -3,6 +3,7 @@ using Data.Entities;
 using Domain.DTOs;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services;
 
@@ -27,6 +28,10 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         var entity = UserFactory.ToEntity(formData);
         var result = await _userManager.CreateAsync(entity, formData.Password);
         if (!result.Succeeded) return null;
+
+        var totalEntities = await _userManager.Users.CountAsync();
+        var role = totalEntities == 1 ? "Admin" : "User";
+        await _userManager.AddToRoleAsync(entity, role);
 
         return UserFactory.ToModel(entity);
     }
