@@ -113,22 +113,34 @@ builder.Services
             OnAuthenticationFailed = context =>
             {
                 context.NoResult();
-                context.Response.StatusCode = 401;
-                context.Response.ContentType = "application/json";
-                return context.Response.WriteAsync("Invalid Token.");
+                if (!context.Response.HasStarted)
+                {
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "application/json";
+                    return context.Response.WriteAsync("Invalid Token.");
+                }
+                return Task.CompletedTask;
             },
             OnChallenge = context =>
             {
                 context.HandleResponse();
-                context.Response.StatusCode = 401;
-                context.Response.ContentType = "application/json";
-                return context.Response.WriteAsync("Token Required");
+                if (!context.Response.HasStarted)
+                {
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "application/json";
+                    return context.Response.WriteAsync("Token Required");
+                }
+                return Task.CompletedTask;
             },
             OnForbidden = context =>
             {
-                context.Response.StatusCode = 403;
-                context.Response.ContentType = "application/json";
-                return context.Response.WriteAsync("Unauthorized access");
+                if (!context.Response.HasStarted)
+                {
+                    context.Response.StatusCode = 403;
+                    context.Response.ContentType = "application/json";
+                    return context.Response.WriteAsync("Unauthorized access");
+                }
+                return Task.CompletedTask;
             }
         };
     });
@@ -166,7 +178,7 @@ await WebApi.Seeders.RoleSeeder.SeedRolesAsync(app.Services);
 app.MapOpenApi();
 
 app.UseHttpsRedirection();
-app.UseCors(x  => x.AllowAnyOrigin().AllowCredentials().AllowAnyHeader());
+app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
 app.UseAuthentication();
 app.UseAuthorization();

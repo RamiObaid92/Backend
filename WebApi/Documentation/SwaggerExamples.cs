@@ -85,18 +85,19 @@ public sealed class EditMemberDataExample : IExamplesProvider<EditMemberForm>
 {
     public EditMemberForm GetExamples() => new()
     {
-        Id = Guid.Parse("11111111‑1111‑1111‑1111‑111111111111"),
+        Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
         ImageFileName = "grace.png",
         FirstName = "Grace",
         LastName = "Hopper",
         Email = "grace.hopper@example.com",
-        Phone = "+46 70‑123 45 67",
+        Phone = "+46 70-123 45 67",
         Title = "Senior Backend Developer",
         MemberRole = "Admin",
-        StreetName = "Storgatan 1",
-        PostalCode = "111 22",
+        StreetName = "Storgatan 1",
+        PostalCode = "111 22",
         CityName = "Stockholm"
         // NewImageFile kan lämnas null i example.
     };
+
 }
 
