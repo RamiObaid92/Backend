@@ -1,7 +1,11 @@
 ﻿using Business.Services;
 using Domain.DTOs;
+using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
+using WebApi.Documentation;
 using WebApi.Extensions.Attributes;
 
 namespace WebApi.Controllers
@@ -15,6 +19,11 @@ namespace WebApi.Controllers
         private readonly IMemberService _memberService = memberService;
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Add a new member")]
+        [SwaggerRequestExample(typeof(AddMemberForm), typeof(AddMemberDataExample))]
+        [SwaggerResponseExample(400, typeof(UserValidationErrorExample))]
+        [ProducesResponseType(typeof(MemberModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateMember(AddMemberForm addMemberForm)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -40,6 +49,11 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [SwaggerOperation(Summary = "Edit a member")]
+        [SwaggerRequestExample(typeof(EditMemberForm), typeof(EditMemberDataExample))]
+        [SwaggerResponseExample(400, typeof(UserValidationErrorExample))]
+        [ProducesResponseType(typeof(MemberModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateMember(EditMemberForm editMemberForm)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
