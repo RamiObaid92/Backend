@@ -2,6 +2,7 @@
 using Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Extensions.Attributes;
 
 namespace WebApi.Controllers
 {
@@ -44,6 +45,8 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+
+        [RequireKey("AdminKey", "UserKey")]
         [HttpPost("signout")]
         public async Task<IActionResult> SignOutUser()
         {
