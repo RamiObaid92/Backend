@@ -14,7 +14,7 @@ public class EditMemberForm
     public string FirstName { get; set; } = null!;
 
     [Required]
-    public string LastName { get; } = null!;
+    public string LastName { get; set; } = null!;
 
     [Required]
     [EmailAddress]

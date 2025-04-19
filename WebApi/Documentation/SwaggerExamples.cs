@@ -10,6 +10,8 @@
 //      });
 //      builder.Services.AddSwaggerExamplesFromAssemblyOf<SwaggerExamples>();
 // ------------------------------------------------------------
+// Skapad med hjälp av AI
+
 #nullable enable
 using Domain.DTOs;
 using Swashbuckle.AspNetCore.Filters;
