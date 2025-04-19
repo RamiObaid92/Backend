@@ -1,7 +1,6 @@
 ﻿using Business.Services;
 using Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -9,6 +8,7 @@ namespace WebApi.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class AuthController(IUserService userService) : ControllerBase
     {
@@ -19,10 +19,8 @@ namespace WebApi.Controllers
         public async Task<IActionResult> SignUp(SignUpForm formData)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var result = await _userService.SignUpAsync(formData);
             if (result is null) return Conflict("User already exists");
-
             return Ok(result);
         }
 
@@ -47,11 +45,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("signout")]
-        [Authorize]
         public async Task<IActionResult> SignOutUser()
         {
             await _userService.SignOutAsync();
-
             Response.Cookies.Delete("jwt");
             return NoContent();
         }

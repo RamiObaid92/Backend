@@ -2,7 +2,7 @@
 
 namespace WebApi.Seeders;
 
-// tog hjälp av AI för att skapa det jag behöver för en role seeder.
+// tog hjälp av AI för att skapa det jag behöver för en role seeder och lägger till roller i databasen vid start.
 public static class RoleSeeder
 {
     public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
