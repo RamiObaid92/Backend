@@ -166,6 +166,8 @@ app.MapOpenApi();
 app.UseHttpsRedirection();
 app.UseCors(x  => x.AllowAnyOrigin().AllowCredentials().AllowAnyHeader());
 
+app.UseMiddleware<WebApi.Extensions.Middleware.DefaultKeyMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

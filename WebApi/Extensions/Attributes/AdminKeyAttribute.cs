@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WebApi.Extensions.Attributes;
 
-public sealed class AdminKeyAttribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public sealed class AdminKeyAttribute : Attribute, IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
