@@ -45,7 +45,6 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-
         [RequireKey("AdminKey", "UserKey")]
         [HttpPost("signout")]
         public async Task<IActionResult> SignOutUser()
