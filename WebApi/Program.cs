@@ -170,6 +170,13 @@ app.UseCors(x  => x.AllowAnyOrigin().AllowCredentials().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alpha Portal API V1");
+    c.RoutePrefix = string.Empty;
+});
+
 app.MapControllers();
 
 app.Run();

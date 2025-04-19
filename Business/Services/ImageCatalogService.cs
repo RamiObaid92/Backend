@@ -2,6 +2,8 @@
 
 namespace Business.Services;
 
+// tog hjälp av AI för att skapa en service som hämtar bilder från appsettings.json
+
 public interface IImageCatalogService
 {
     IReadOnlyList<string> GetAvatars();
