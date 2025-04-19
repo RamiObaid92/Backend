@@ -8,7 +8,6 @@ public class EditMemberForm
     [Required]
     public Guid Id { get; set; }
     public string? ImageFileName { get; set; }
-    public IFormFile? NewImageFile { get; set; }
 
     [Required]
     public string FirstName { get; set; } = null!;

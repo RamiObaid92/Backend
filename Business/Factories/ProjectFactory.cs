@@ -24,7 +24,7 @@ public static class ProjectFactory
     }
 
     // Tog hjälp av AI med hur man optimerar UpdateEntity metoden. Så att den inte replacear hela objektet utan bara uppdaterar de fälten som har ändrats.
-    public static void UpdateEntity(ProjectEntity entity, EditProjectForm formData, string? newImageFileName = null)
+    public static void UpdateEntity(ProjectEntity entity, EditProjectForm formData)
     {
         if (entity is null || formData is null) return;
 
@@ -36,7 +36,7 @@ public static class ProjectFactory
         entity.ProjectOwnerId = formData.ProjectOwnerId;
         entity.ClientId = formData.ClientId;
         entity.StatusId = formData.StatusId;
-        entity.ImageFileName = newImageFileName ?? formData.ImageFileName;
+        entity.ImageFileName = formData.ImageFileName ?? entity.ImageFileName;
     }
 
     public static ProjectModel ToModel(ProjectEntity? entity)

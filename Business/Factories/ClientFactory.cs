@@ -27,14 +27,14 @@ public static class ClientFactory
         };
     }
 
-    public static void UpdateEntity(ClientEntity entity, EditClientForm formData, string? newImageFileName = null)
+    public static void UpdateEntity(ClientEntity entity, EditClientForm formData)
     {
         if (entity is null || formData is null) return;
 
         entity.ClientName = formData.ClientName;
         entity.Phone = formData.Phone;
         entity.Email = formData.Email;
-        entity.ImageFileName = newImageFileName ?? formData.ImageFileName;
+        entity.ImageFileName = formData.ImageFileName ?? entity.ImageFileName;
 
         entity.Address ??= new ClientAddressEntity();
         entity.Address.StreetName = formData.StreetName;

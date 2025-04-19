@@ -5,7 +5,7 @@ namespace Domain.DTOs;
 
 public class AddMemberForm
 {
-    public IFormFile? NewImageFile { get; set; }
+    public string? ImageFileName { get; set; }
 
     [Required]
     public string FirstName { get; set; } = null!;

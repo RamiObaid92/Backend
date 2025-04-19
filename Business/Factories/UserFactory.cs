@@ -15,8 +15,7 @@ public static class UserFactory
             UserName = formData.Email,
             FirstName = formData.FirstName,
             LastName = formData.LastName,
-            Email = formData.Email,
-            ImageFileName = "Default.png"
+            Email = formData.Email
         };
     }
 

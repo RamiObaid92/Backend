@@ -28,7 +28,7 @@ public static class MemberFactory
         };
     }
 
-    public static void UpdateEntity(MemberEntity entity, EditMemberForm formData, string? newImageFileName = null)
+    public static void UpdateEntity(MemberEntity entity, EditMemberForm formData)
     {
         if (entity is null || formData is null) return;
 
@@ -38,7 +38,7 @@ public static class MemberFactory
         entity.Phone = formData.Phone;
         entity.Title = formData.Title;
         entity.MemberRole = formData.MemberRole;
-        entity.ImageFileName = newImageFileName ?? formData.ImageFileName;
+        entity.ImageFileName = formData.ImageFileName ?? entity.ImageFileName;
 
         entity.Address ??= new MemberAddressEntity();
         entity.Address.StreetName = formData.StreetName;

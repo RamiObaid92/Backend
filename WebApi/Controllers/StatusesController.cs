@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Extensions.Attributes;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
+    [RequireKey("AdminKey, UserKey")]
     [ApiController]
     public class StatusesController(IStatusService statusService) : ControllerBase
     {

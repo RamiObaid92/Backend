@@ -5,7 +5,7 @@ namespace Domain.DTOs;
 
 public class AddProjectForm
 {
-    public IFormFile? NewImageFileName { get; set; }
+    public string? ImageFileName { get; set; }
 
     [Required]
     public string ProjectName { get; set; } = null!;

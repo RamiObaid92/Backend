@@ -148,6 +148,7 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddSingleton<IImageCatalogService, ImageCatalogService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
