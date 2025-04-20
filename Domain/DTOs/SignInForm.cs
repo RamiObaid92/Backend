@@ -5,7 +5,8 @@ namespace Domain.DTOs;
 public class SignInForm
 {
     [Required]
-    public string UserName { get; set; } = null!;
+    [EmailAddress]
+    public string Email { get; set; } = null!;
 
     [Required]
     [DataType(DataType.Password)]

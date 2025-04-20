@@ -40,7 +40,7 @@ public sealed class SignInDataExample : IExamplesProvider<SignInForm>
 {
     public SignInForm GetExamples() => new()
     {
-        UserName = "ada.lovelace@example.com",
+        Email = "ada.lovelace@example.com",
         Password = "Pass!1234",
         RememberMe = true
     };

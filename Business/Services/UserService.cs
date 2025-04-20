@@ -31,7 +31,13 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         var entity = UserFactory.ToEntity(formData);
         entity.ImageFileName ??= _imageCatalogService.GetDefaultAvatar();
         var result = await _userManager.CreateAsync(entity, formData.Password);
-        if (!result.Succeeded) return null;
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+                Console.WriteLine($"CreateAsync Error: {error.Code} - {error.Description}");
+
+            return null;
+        }
 
         var totalEntities = await _userManager.Users.CountAsync();
         var role = totalEntities == 1 ? "Admin" : "User";
@@ -43,10 +49,10 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
     // Modifierade SignInAsync för att lägga till token till cookie vid SignIn. Tog hjälp av AI med hur man gör det.
     public async Task<AuthResult?> SignInAsync(SignInForm formData)
     {
-        var result = await _signInManager.PasswordSignInAsync(formData.UserName, formData.Password, formData.RememberMe, false);
+        var result = await _signInManager.PasswordSignInAsync(formData.Email, formData.Password, formData.RememberMe, false);
         if (!result.Succeeded) return null;
 
-        var user = await _userManager.FindByEmailAsync(formData.UserName);
+        var user = await _userManager.FindByEmailAsync(formData.Email);
         var roles = await _userManager.GetRolesAsync(user!);
 
         var token = _tokenService.GenerateToken(user!, roles);
