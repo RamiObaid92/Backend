@@ -12,7 +12,6 @@ public class MemberEntity
     public string Email { get; set; } = null!;
     public string? Phone { get; set; }
     public string Title { get; set; } = null!;
-    public string MemberRole { get; set; } = null!;
 
     public MemberAddressEntity? Address { get; set; }
 }

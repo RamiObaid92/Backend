@@ -40,7 +40,7 @@ public sealed class SignInDataExample : IExamplesProvider<SignInForm>
 {
     public SignInForm GetExamples() => new()
     {
-        Email = "ada.lovelace@example.com",
+        UserName = "ada.lovelace@example.com",
         Password = "Pass!1234",
         RememberMe = true
     };
@@ -72,12 +72,9 @@ public sealed class AddMemberDataExample : IExamplesProvider<AddMemberForm>
         Email = "grace.hopper@example.com",
         Phone = "+46 70‑123 45 67",
         Title = "Backend Developer",
-        MemberRole = "User",
         StreetName = "Storgatan 1",
         PostalCode = "111 22",
         CityName = "Stockholm"
-        // NewImageFile kan inte exemplifieras som ren JSON –
-        // i Swagger visas den som file‑upload‑fält automatiskt.
     };
 }
 
@@ -92,11 +89,9 @@ public sealed class EditMemberDataExample : IExamplesProvider<EditMemberForm>
         Email = "grace.hopper@example.com",
         Phone = "+46 70-123 45 67",
         Title = "Senior Backend Developer",
-        MemberRole = "Admin",
         StreetName = "Storgatan 1",
         PostalCode = "111 22",
         CityName = "Stockholm"
-        // NewImageFile kan lämnas null i example.
     };
 
 }

@@ -18,7 +18,6 @@ public static class MemberFactory
             Email = formData.Email,
             Phone = formData.Phone,
             Title = formData.Title,
-            MemberRole = formData.MemberRole,
             Address = new MemberAddressEntity
             {
                 StreetName = formData.StreetName,
@@ -37,7 +36,6 @@ public static class MemberFactory
         entity.Email = formData.Email;
         entity.Phone = formData.Phone;
         entity.Title = formData.Title;
-        entity.MemberRole = formData.MemberRole;
         entity.ImageFileName = formData.ImageFileName ?? entity.ImageFileName;
 
         entity.Address ??= new MemberAddressEntity();
@@ -58,7 +56,6 @@ public static class MemberFactory
             Email = entity.Email,
             Phone = entity.Phone,
             Title = entity.Title,
-            MemberRole = entity.MemberRole
         };
     }
 }

@@ -22,9 +22,6 @@ public class AddMemberForm
     [Required]
     public string Title { get; set; } = null!;
 
-    [Required]
-    public string MemberRole { get; set; } = null!;
-
     public string? StreetName { get; set; }
 
     public string? PostalCode { get; set; }

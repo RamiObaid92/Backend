@@ -41,10 +41,10 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
     // Modifierade SignInAsync för att lägga till token till cookie vid SignIn. Tog hjälp av AI med hur man gör det.
     public async Task<AuthResult?> SignInAsync(SignInForm formData)
     {
-        var result = await _signInManager.PasswordSignInAsync(formData.Email, formData.Password, isPersistent: formData.RememberMe, lockoutOnFailure: false);
+        var result = await _signInManager.PasswordSignInAsync(formData.UserName, formData.Password, formData.RememberMe, false);
         if (!result.Succeeded) return null;
 
-        var user = await _userManager.FindByEmailAsync(formData.Email);
+        var user = await _userManager.FindByEmailAsync(formData.UserName);
         var roles = await _userManager.GetRolesAsync(user!);
 
         var token = _tokenService.GenerateToken(user!, roles);
