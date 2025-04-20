@@ -1,10 +1,14 @@
-﻿using Business.Services;
+﻿using Business.Factories;
+using Business.Services;
+using Data.Entities;
 using Domain.DTOs;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
+using System.Security.Claims;
 using WebApi.Documentation;
 using WebApi.Extensions.Attributes;
 
@@ -15,9 +19,30 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class AuthController(IUserService userService) : ControllerBase
+    public class AuthController(IUserService userService, UserManager<UserEntity> userManager) : ControllerBase
     {
         private readonly IUserService _userService = userService;
+        private readonly UserManager<UserEntity> _userManager = userManager;
+
+        // tog hjälp av AI för att skapa den här metoden.
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound("User not found");
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var model = UserFactory.ToModel(user);
+            model.Roles = roles.ToList();
+
+            return Ok(new { user = model });
+        }
 
         [HttpPost("signup")]
         [AllowAnonymous]

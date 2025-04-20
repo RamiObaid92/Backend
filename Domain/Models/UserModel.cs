@@ -7,6 +7,6 @@ public class UserModel
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public string? Email { get; set; }
-
     public string FullName => $"{FirstName} {LastName}";
+    public List<string> Roles { get; set; } = new();
 }

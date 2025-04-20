@@ -171,6 +171,17 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:5173")
+               .AllowCredentials()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 await WebApi.Seeders.RoleSeeder.SeedRolesAsync(app.Services);
@@ -178,7 +189,7 @@ await WebApi.Seeders.RoleSeeder.SeedRolesAsync(app.Services);
 app.MapOpenApi();
 
 app.UseHttpsRedirection();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+app.UseCors("FrontendPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

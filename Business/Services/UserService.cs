@@ -24,6 +24,8 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
     public async Task<UserModel?> SignUpAsync(SignUpForm formData)
     {
         var userExists = await _userManager.FindByEmailAsync(formData.Email);
+        Console.WriteLine($"Searching for: {formData.Email}");
+        Console.WriteLine($"Found user: {(userExists != null ? userExists.Email : "null")}");
         if (userExists is not null) return null;
 
         var entity = UserFactory.ToEntity(formData);
