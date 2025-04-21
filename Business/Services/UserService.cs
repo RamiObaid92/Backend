@@ -14,12 +14,11 @@ public interface IUserService
     Task<UserModel?> SignUpAsync(SignUpForm formData);
 }
 
-public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ITokenService tokenService, IImageCatalogService imageCatalogService) : IUserService
+public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ITokenService tokenService) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
     private readonly ITokenService _tokenService = tokenService;
-    private readonly IImageCatalogService _imageCatalogService = imageCatalogService;
 
     public async Task<UserModel?> SignUpAsync(SignUpForm formData)
     {
@@ -29,7 +28,6 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         if (userExists is not null) return null;
 
         var entity = UserFactory.ToEntity(formData);
-        entity.ImageFileName ??= _imageCatalogService.GetDefaultAvatar();
         var result = await _userManager.CreateAsync(entity, formData.Password);
         if (!result.Succeeded)
         {

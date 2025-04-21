@@ -161,7 +161,6 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
-builder.Services.AddSingleton<IImageCatalogService, ImageCatalogService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -173,9 +172,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("FrontendPolicy", builder =>
+    options.AddPolicy("FrontendPolicy", policy =>
     {
-        builder.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173")
                .AllowCredentials()
                .AllowAnyHeader()
                .AllowAnyMethod();

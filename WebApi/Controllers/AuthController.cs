@@ -25,10 +25,13 @@ namespace WebApi.Controllers
         private readonly UserManager<UserEntity> _userManager = userManager;
 
         // tog hjälp av AI för att skapa den här metoden.
-        [HttpGet]
+        [HttpGet("me")]
         [Authorize]
         public async Task<IActionResult> GetCurrentUser()
         {
+            if (!User.Identity?.IsAuthenticated ?? false)
+                return Unauthorized("User is not authenticated");
+
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
@@ -37,9 +40,13 @@ namespace WebApi.Controllers
             if (user == null)
                 return NotFound("User not found");
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = User
+                .FindAll(ClaimTypes.Role)
+                .Select(role => role.Value)
+                .ToList();
+
             var model = UserFactory.ToModel(user);
-            model.Roles = roles.ToList();
+            model.Roles = roles;
 
             return Ok(new { user = model });
         }
