@@ -24,11 +24,16 @@ namespace WebApi.Controllers
         [SwaggerResponseExample(400, typeof(UserValidationErrorExample))]
         [ProducesResponseType(typeof(MemberModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateMember(AddMemberForm addMemberForm)
+        public async Task<IActionResult> CreateMember([FromForm] AddMemberForm addMemberForm)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
             var member = await _memberService.CreateMemberAsync(addMemberForm);
-            if (member is null) return BadRequest();
+
+            if (member is null) 
+                return BadRequest();
+
             return Ok(member);
         }
 
@@ -36,7 +41,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetAllMembers()
         {
             var members = await _memberService.GetAllMembersAsync();
-            if (members is null) return NotFound();
+
+            if (members is null) 
+                return NotFound();
+
             return Ok(members);
         }
 
@@ -44,7 +52,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetMemberById(Guid id)
         {
             var member = await _memberService.GetMemberByIdAsync(id);
-            if (member is null) return NotFound();
+
+            if (member is null) 
+                return NotFound();
+
             return Ok(member);
         }
 
@@ -54,11 +65,16 @@ namespace WebApi.Controllers
         [SwaggerResponseExample(400, typeof(UserValidationErrorExample))]
         [ProducesResponseType(typeof(MemberModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateMember(EditMemberForm editMemberForm)
+        public async Task<IActionResult> UpdateMember([FromForm] EditMemberForm editMemberForm)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
             var member = await _memberService.UpdateMemberAsync(editMemberForm);
-            if (member is null) return NotFound();
+
+            if (member is null) 
+                return NotFound();
+
             return Ok(member);
         }
 
@@ -66,7 +82,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> DeleteMember(Guid id)
         {
             var result = await _memberService.DeleteMemberAsync(id);
-            if (!result) return NotFound();
+
+            if (!result) 
+                return NotFound();
+
             return Ok();
         }
     }

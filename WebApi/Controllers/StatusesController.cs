@@ -18,7 +18,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetAllStatuses()
         {
             var statuses = await _statusService.GetAllStatusesAsync();
-            if (statuses is null) return NotFound();
+
+            if (statuses is null) 
+                return NotFound();
+
             return Ok(statuses);
         }
     }

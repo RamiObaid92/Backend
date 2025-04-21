@@ -15,11 +15,16 @@ namespace WebApi.Controllers
         private readonly IProjectService _projectService = projectService;
 
         [HttpPost]
-        public async Task<IActionResult> CreateProject(AddProjectForm formData)
+        public async Task<IActionResult> CreateProject([FromForm] AddProjectForm formData)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
             var result = await _projectService.CreateProjectAsync(formData);
-            if (result is null) return BadRequest();
+
+            if (result is null) 
+                return BadRequest();
+
             return Ok(result);
         }
 
@@ -27,7 +32,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetAllProjects()
         {
             var result = await _projectService.GetAllProjectsAsync();
-            if (result is null) return NotFound();
+
+            if (result is null) 
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -35,16 +43,24 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetProjectById(Guid id)
         {
             var result = await _projectService.GetProjectByIdAsync(id);
-            if (result is null) return NotFound();
+
+            if (result is null) 
+                return NotFound();
+
             return Ok(result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProject(EditProjectForm formData)
+        public async Task<IActionResult> UpdateProject([FromForm] EditProjectForm formData)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
             var result = await _projectService.UpdateProjectAsync(formData);
-            if (result is null) return NotFound();
+
+            if (result is null) 
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -52,7 +68,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> DeleteProject(Guid id)
         {
             var result = await _projectService.DeleteProjectAsync(id);
-            if (!result) return NotFound();
+
+            if (!result) 
+                return NotFound();
+
             return Ok();
         }
     }

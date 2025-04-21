@@ -33,6 +33,7 @@ namespace WebApi.Controllers
                 return Unauthorized("User is not authenticated");
 
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
 
