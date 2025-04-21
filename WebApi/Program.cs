@@ -145,7 +145,7 @@ builder.Services
         };
     });
 
-builder.Services.AddAuthorization();dd
+builder.Services.AddAuthorization();
 
 var connectionString = builder.Configuration.GetConnectionString("AzureBlobStorage");
 var containerName = "images";
