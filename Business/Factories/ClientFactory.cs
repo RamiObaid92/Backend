@@ -15,7 +15,7 @@ public static class ClientFactory
             ClientName = formData.ClientName,
             Phone = formData.Phone,
             Email = formData.Email,
-            ImageFileName = formData.ImageFileName,
+            ImageFileName = newImageFileName,
 
             Address = new ClientAddressEntity
             {

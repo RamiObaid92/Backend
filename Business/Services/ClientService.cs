@@ -16,10 +16,11 @@ public interface IClientService
     Task<ClientModel?> UpdateClientAsync(EditClientForm formData);
 }
 
-public class ClientService(IClientRepository clientRepository, ICacheHandler<IEnumerable<ClientModel>> cacheHandler) : IClientService
+public class ClientService(IClientRepository clientRepository, ICacheHandler<IEnumerable<ClientModel>> cacheHandler, IFileHandler fileHandler) : IClientService
 {
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly ICacheHandler<IEnumerable<ClientModel>> _cacheHandler = cacheHandler;
+    private readonly IFileHandler _fileHandler = fileHandler;
     private const string _cacheKey = "Clients";
 
     public async Task<ClientModel?> CreateClientAsync(AddClientForm formData)
@@ -29,6 +30,12 @@ public class ClientService(IClientRepository clientRepository, ICacheHandler<IEn
 
         var entity = ClientFactory.ToEntity(formData);
         await _clientRepository.AddAsync(entity);
+
+        if (formData.ImageFile != null)
+        {
+            var imageFileName = await _fileHandler.UploadFileAsync(formData.ImageFile);
+            entity.ImageFileName = imageFileName;
+        }
 
         var models = await UpdateCacheAsync();
         return models.FirstOrDefault(x => x.Id == entity.Id);

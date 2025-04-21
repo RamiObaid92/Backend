@@ -147,6 +147,11 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+var connectionString = builder.Configuration.GetConnectionString("AzureBlobStorage");
+var containerName = "images";
+
+builder.Services.AddScoped<IFileHandler>(x => new AzureFileHandler(connectionString!, containerName));
+
 builder.Services.AddScoped(typeof(ICacheHandler<>), typeof(CacheHandler<>));
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();

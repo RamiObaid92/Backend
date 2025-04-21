@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         private readonly IUserService _userService = userService;
         private readonly UserManager<UserEntity> _userManager = userManager;
 
-        // tog hjälp av AI för att skapa den här metoden.
+        // tog hjälp av AI för att skapa den här metoden så att frontend delen får information om användarens roll, för att kunna visa/gömma grejer.
         [HttpGet("me")]
         [Authorize]
         public async Task<IActionResult> GetCurrentUser()
@@ -40,7 +40,7 @@ namespace WebApi.Controllers
             if (user == null)
                 return NotFound("User not found");
 
-            var roles = User
+            var roles = User!
                 .FindAll(ClaimTypes.Role)
                 .Select(role => role.Value)
                 .ToList();

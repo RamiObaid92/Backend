@@ -9,6 +9,7 @@ public class EditProjectForm
     public Guid Id { get; set; }
 
     public string? ImageFileName { get; set; }
+    public IFormFile? NewImageFile { get; set; }
 
     [Required]
     public string ProjectName { get; set; } = null!;

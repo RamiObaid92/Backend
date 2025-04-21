@@ -5,7 +5,7 @@ namespace Domain.DTOs;
 
 public class AddClientForm
 {
-    public string? ImageFileName { get; set; }
+    public IFormFile? ImageFile { get; set; }
 
     [Required]
     public string ClientName { get; set; } = null!;
