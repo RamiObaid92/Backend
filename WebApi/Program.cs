@@ -23,12 +23,6 @@ builder.Services.AddMemoryCache();
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 builder.Services.AddIdentity<UserEntity, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("Jwt"));
-
-builder.Services.Configure<SecretKeys>(
-    builder.Configuration.GetSection("SecretKeys"));
-
 // Tog hjälp av AI för att skapa det jag behöver för Swagger och lägga till JWT authentication där.
 builder.Services.AddSwaggerGen(options =>
 {
