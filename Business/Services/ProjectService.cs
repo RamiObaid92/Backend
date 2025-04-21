@@ -15,18 +15,27 @@ public interface IProjectService
     Task<ProjectModel?> UpdateProjectAsync(EditProjectForm formData);
 }
 
-public class ProjectService(IProjectRepository projectRepository, ICacheHandler<IEnumerable<ProjectModel>> cacheHandler) : IProjectService
+public class ProjectService(IProjectRepository projectRepository, ICacheHandler<IEnumerable<ProjectModel>> cacheHandler, IFileHandler fileHandler) : IProjectService
 {
     private readonly IProjectRepository _projectRepository = projectRepository;
     private readonly ICacheHandler<IEnumerable<ProjectModel>> _cacheHandler = cacheHandler;
+    private readonly IFileHandler _fileHandler = fileHandler;
     private const string _cacheKey = "Projects";
 
     public async Task<ProjectModel?> CreateProjectAsync(AddProjectForm formData)
     {
-        var entity = ProjectFactory.ToEntity(formData);
-        if (await _projectRepository.ExistsAsync(x => x.ProjectName == entity.ProjectName))
+        if (await _projectRepository.ExistsAsync(x => x.ProjectName == formData.ProjectName))
             return null;
-        await _projectRepository.AddAsync(entity);
+
+        string? imageFileName = null;
+        if (formData.ImageFile != null)
+        {
+            imageFileName = await _fileHandler.UploadFileAsync(formData.ImageFile);
+        }
+
+        var entity = ProjectFactory.ToEntity(formData);
+        entity.ImageFileName = imageFileName;
+        await _projectRepository.AddAsync(entity);  
 
         var models = await UpdateCacheAsync();
         return models.FirstOrDefault(x => x.Id == entity.Id);
@@ -48,6 +57,12 @@ public class ProjectService(IProjectRepository projectRepository, ICacheHandler<
     {
         var entity = await _projectRepository.GetAsync(x => x.Id == formData.Id);
         if (entity is null) return null;
+
+        if (formData.NewImageFile != null)
+        {
+            var imageFileName = await _fileHandler.UploadFileAsync(formData.NewImageFile);
+            formData.ImageFileName = imageFileName;
+        }
 
         ProjectFactory.UpdateEntity(entity, formData);
         await _projectRepository.UpdateAsync(entity);

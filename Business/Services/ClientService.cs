@@ -28,14 +28,16 @@ public class ClientService(IClientRepository clientRepository, ICacheHandler<IEn
         var clientExists = await _clientRepository.ExistsAsync(x => x.Email == formData.Email);
         if (clientExists) return null;
 
-        var entity = ClientFactory.ToEntity(formData);
-        await _clientRepository.AddAsync(entity);
-
+        string? imageFileName = null;
         if (formData.ImageFile != null)
         {
-            var imageFileName = await _fileHandler.UploadFileAsync(formData.ImageFile);
-            entity.ImageFileName = imageFileName;
+            imageFileName = await _fileHandler.UploadFileAsync(formData.ImageFile);
         }
+
+        var entity = ClientFactory.ToEntity(formData);
+        entity.ImageFileName = imageFileName;
+
+        await _clientRepository.AddAsync(entity);
 
         var models = await UpdateCacheAsync();
         return models.FirstOrDefault(x => x.Id == entity.Id);
@@ -57,6 +59,12 @@ public class ClientService(IClientRepository clientRepository, ICacheHandler<IEn
     {
         var entity = await _clientRepository.GetAsync(x => x.Id == formData.Id);
         if (entity is null) return null;
+
+        if (formData.NewImageFile != null)
+        {
+            var imageFileName = await _fileHandler.UploadFileAsync(formData.NewImageFile);
+            formData.ImageFileName = imageFileName;
+        }
 
         ClientFactory.UpdateEntity(entity, formData);
         await _clientRepository.UpdateAsync(entity);
