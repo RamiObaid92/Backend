@@ -30,7 +30,7 @@ public sealed class RequireKeyAttribute(params string[] keyNames) : Attribute, I
             };
 
             if (context.HttpContext.Request.Headers.TryGetValue(headerName, out var providedKey) &&
-                string.Equals(providedKey, expectedKey))
+                string.Equals(providedKey, expectedKey, StringComparison.Ordinal))
             {
                 await next();
                 return;
