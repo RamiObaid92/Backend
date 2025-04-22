@@ -19,7 +19,7 @@ public static class ProjectFactory
             EndDate = formData.EndDate,
             ProjectOwnerId = formData.ProjectOwnerId,
             ClientId = formData.ClientId,
-            StatusId = 1
+            StatusId = formData.StatusId,
         };
     }
 

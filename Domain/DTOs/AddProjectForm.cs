@@ -27,5 +27,8 @@ public class AddProjectForm
     public string ProjectOwnerId { get; set; } = null!;
 
     public decimal Budget { get; set; }
+
+    [Required]
+    public int StatusId { get; set; }
 }
 
