@@ -66,7 +66,7 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         return new AuthResult(model, token);
     }
 
-    public async Task<IEnumerable<UserModel>> GetAllMembersAsync()
+    public async Task<IEnumerable<UserModel>> GetAllUsersAsync()
         => _cacheHandler.GetFromCache(_cacheKey) ?? await UpdateCacheAsync();
 
     public async Task SignOutAsync()
