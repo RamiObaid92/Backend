@@ -2,13 +2,11 @@
 using Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Extensions.Attributes;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    [RequireKey("AdminKey", "UserKey")]
     [ApiController]
     public class ProjectsController(IProjectService projectService) : ControllerBase
     {

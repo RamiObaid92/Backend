@@ -4,6 +4,7 @@ using Domain.DTOs;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Business.Services;
 
@@ -14,11 +15,12 @@ public interface IUserService
     Task<UserModel?> SignUpAsync(SignUpForm formData);
 }
 
-public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ITokenService tokenService) : IUserService
+public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ITokenService tokenService, IConfiguration configuration) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
     private readonly ITokenService _tokenService = tokenService;
+    private readonly IConfiguration _configuration = configuration;
 
     public async Task<UserModel?> SignUpAsync(SignUpForm formData)
     {
@@ -54,9 +56,15 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         var roles = await _userManager.GetRolesAsync(user!);
 
         var token = _tokenService.GenerateToken(user!, roles);
-        var model = UserFactory.ToModel(user);
+        var apiKeys = new ApiKeysDto(
+            AdminKey: _configuration["SecretKeys:AdminKey"]!,
+            UserKey: _configuration["SecretKeys:UserKey"]!
+        );
 
-        return new AuthResult(model, token);
+        var model = UserFactory.ToModel(user);
+        model.Roles = roles.ToList();
+
+        return new AuthResult(model, token, apiKeys);
     }
 
     public async Task SignOutAsync()

@@ -78,10 +78,12 @@ namespace WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> SignIn(SignInForm formData)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) 
+                return BadRequest(ModelState);
 
             var result = await _userService.SignInAsync(formData);
-            if (result is null) return Unauthorized("Invalid Email or Password");
+            if (result is null) 
+                return Unauthorized("Invalid Email or Password");
 
             Response.Cookies.Append("jwt", result.Token, new CookieOptions
             {
@@ -91,7 +93,7 @@ namespace WebApi.Controllers
                 Expires = DateTimeOffset.UtcNow.AddHours(1)
             });
 
-            return Ok(result);
+            return Ok(new { user = result.User, apiKeys = result.ApiKeys });
         }
 
         [RequireKey("AdminKey", "UserKey")]

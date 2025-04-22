@@ -1,6 +1,7 @@
 ﻿using Data.Entities;
 using Domain.DTOs;
 using Domain.Models;
+using System.Data;
 
 namespace Business.Factories;
 
@@ -19,7 +20,7 @@ public static class UserFactory
         };
     }
 
-    public static UserModel ToModel(UserEntity? entity)
+    public static UserModel ToModel(UserEntity? entity, IList<string>? roles = null)
     {
         if (entity is null) return null!;
 
@@ -29,7 +30,8 @@ public static class UserFactory
             FirstName = entity.FirstName,
             LastName = entity.LastName,
             Email = entity.Email,
-            ImageFileName = entity.ImageFileName
+            ImageFileName = entity.ImageFileName,
+            Roles = roles?.ToList() ?? new List<string>()
         };
     }
 }
