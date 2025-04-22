@@ -110,6 +110,15 @@ builder.Services
 
         options.Events = new JwtBearerEvents
         {
+            OnMessageReceived = context =>
+            {
+                if (context.Request.Cookies.TryGetValue("jwt", out var token))
+                {
+                    context.Token = token;
+                }
+                return Task.CompletedTask;
+            },
+
             OnAuthenticationFailed = context =>
             {
                 context.NoResult();
