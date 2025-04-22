@@ -7,14 +7,14 @@ using WebApi.Extensions.Attributes;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
-    [UseAdminApiKey]
     [ApiController]
     public class ClientsController(IClientService clientService) : ControllerBase
     {
         private readonly IClientService _clientService = clientService;
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [UseAdminApiKey]
         public async Task<IActionResult> CreateClient([FromForm] AddClientForm addClientForm)
         {
             if (!ModelState.IsValid) 
@@ -51,6 +51,8 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
+        [UseAdminApiKey]
         public async Task<IActionResult> UpdateClient([FromForm] EditClientForm editClientForm)
         {
             if (!ModelState.IsValid) 
@@ -65,6 +67,8 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        [UseAdminApiKey]
         public async Task<IActionResult> DeleteClient(Guid id)
         {
             var result = await _clientService.DeleteClientAsync(id);
