@@ -201,20 +201,20 @@ var app = builder.Build();
 await WebApi.Seeders.RoleSeeder.SeedRolesAsync(app.Services);
 
 app.MapOpenApi();
-app.UseMiddleware<DefaultApiKeyMiddleware>();
-app.UseRouting();
-app.UseHttpsRedirection();
-app.UseCors("FrontendPolicy");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alpha Portal API V1");
     c.RoutePrefix = string.Empty;
 });
+app.UseRouting();
+app.UseHttpsRedirection();
+app.UseCors("FrontendPolicy");
+
+app.UseMiddleware<DefaultApiKeyMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
