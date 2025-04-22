@@ -100,7 +100,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _userService.get();
+            var users = await _userService.GetAllUsersAsync();
             if (users is null)
                 return NotFound();
             return Ok(users);

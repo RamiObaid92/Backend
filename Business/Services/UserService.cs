@@ -11,7 +11,7 @@ namespace Business.Services;
 
 public interface IUserService
 {
-    Task<IEnumerable<UserModel>> GetAllMembersAsync();
+    Task<IEnumerable<UserModel>> GetAllUsersAsync();
     Task<AuthResult?> SignInAsync(SignInForm formData);
     Task SignOutAsync();
     Task<UserModel?> SignUpAsync(SignUpForm formData);
