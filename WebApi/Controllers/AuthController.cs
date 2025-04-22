@@ -85,7 +85,7 @@ namespace WebApi.Controllers
             if (result is null) 
                 return Unauthorized("Invalid Email or Password");
 
-            Response.Cookies.Append("Jwt", result.Token, new CookieOptions
+            Response.Cookies.Append("jwt", result.Token, new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None,
