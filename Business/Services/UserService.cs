@@ -1,4 +1,5 @@
 ﻿using Business.Factories;
+using Business.Handlers;
 using Data.Entities;
 using Domain.DTOs;
 using Domain.Models;
@@ -10,17 +11,19 @@ namespace Business.Services;
 
 public interface IUserService
 {
+    Task<IEnumerable<UserModel>> GetAllMembersAsync();
     Task<AuthResult?> SignInAsync(SignInForm formData);
     Task SignOutAsync();
     Task<UserModel?> SignUpAsync(SignUpForm formData);
 }
 
-public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ITokenService tokenService, IConfiguration configuration) : IUserService
+public class UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ITokenService tokenService, ICacheHandler<IEnumerable<UserModel>> cacheHandler) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
     private readonly ITokenService _tokenService = tokenService;
-    private readonly IConfiguration _configuration = configuration;
+    private readonly ICacheHandler<IEnumerable<UserModel>> _cacheHandler = cacheHandler;
+    private readonly string _cacheKey = "Users";
 
     public async Task<UserModel?> SignUpAsync(SignUpForm formData)
     {
@@ -42,7 +45,7 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         var totalEntities = await _userManager.Users.CountAsync();
         var role = totalEntities == 1 ? "Admin" : "User";
         await _userManager.AddToRoleAsync(entity, role);
-
+        await UpdateCacheAsync();
         return UserFactory.ToModel(entity);
     }
 
@@ -63,6 +66,19 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         return new AuthResult(model, token);
     }
 
+    public async Task<IEnumerable<UserModel>> GetAllMembersAsync()
+        => _cacheHandler.GetFromCache(_cacheKey) ?? await UpdateCacheAsync();
+
     public async Task SignOutAsync()
         => await _signInManager.SignOutAsync();
+
+    private async Task<IEnumerable<UserModel>> UpdateCacheAsync()
+    {
+        var entities = await _userManager.Users.ToListAsync();
+        var models = entities.Select(entity => UserFactory.ToModel(entity)).ToList();
+
+        _cacheHandler.SetCache(_cacheKey, models);
+        return models;
+    }
 }
+

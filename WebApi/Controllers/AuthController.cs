@@ -93,6 +93,19 @@ namespace WebApi.Controllers
             return Ok(new { user = result.User});
         }
 
+        [HttpGet("users")]
+        [Authorize]
+        [SwaggerOperation(Summary = "Get all users")]
+        [ProducesResponseType(typeof(IEnumerable<UserModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsersAsync();
+            if (users is null)
+                return NotFound();
+            return Ok(users);
+        }
+
         [HttpPost("signout")]
         [Authorize]
         [SwaggerOperation(Summary = "Sign out current user")]
