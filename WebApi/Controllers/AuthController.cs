@@ -85,7 +85,7 @@ namespace WebApi.Controllers
             if (result is null) 
                 return Unauthorized("Invalid Email or Password");
 
-            Response.Cookies.Append("jwt", result.Token, new CookieOptions
+            Response.Cookies.Append("Jwt", result.Token, new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None,
@@ -93,7 +93,7 @@ namespace WebApi.Controllers
                 Expires = DateTimeOffset.UtcNow.AddHours(1)
             });
 
-            return Ok(new { user = result.User, apiKeys = result.ApiKeys });
+            return Ok(new { user = result.User});
         }
 
         [RequireKey("AdminKey", "UserKey")]

@@ -2,4 +2,4 @@
 
 namespace Domain.DTOs;
 
-public record AuthResult(UserModel User, string Token, ApiKeysDto ApiKeys);
+public record AuthResult(UserModel User, string Token);

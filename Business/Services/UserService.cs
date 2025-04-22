@@ -56,15 +56,11 @@ public class UserService(UserManager<UserEntity> userManager, SignInManager<User
         var roles = await _userManager.GetRolesAsync(user!);
 
         var token = _tokenService.GenerateToken(user!, roles);
-        var apiKeys = new ApiKeysDto(
-            AdminKey: _configuration["SecretKeys:AdminKey"]!,
-            UserKey: _configuration["SecretKeys:UserKey"]!
-        );
 
         var model = UserFactory.ToModel(user);
         model.Roles = roles.ToList();
 
-        return new AuthResult(model, token, apiKeys);
+        return new AuthResult(model, token);
     }
 
     public async Task SignOutAsync()
