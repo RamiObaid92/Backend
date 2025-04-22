@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Text;
+using WebApi.Extensions.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -200,7 +201,8 @@ var app = builder.Build();
 await WebApi.Seeders.RoleSeeder.SeedRolesAsync(app.Services);
 
 app.MapOpenApi();
-
+app.UseMiddleware<DefaultApiKeyMiddleware>();
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("FrontendPolicy");
 

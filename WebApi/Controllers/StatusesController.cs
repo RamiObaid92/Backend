@@ -8,7 +8,6 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    [RequireKey("AdminKey", "UserKey")]
     [ApiController]
     public class StatusesController(IStatusService statusService) : ControllerBase
     {

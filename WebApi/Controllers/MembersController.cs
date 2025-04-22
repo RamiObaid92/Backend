@@ -12,7 +12,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [Authorize(Roles = "Admin")]
-    [RequireKey("AdminKey")]
+    [UseAdminApiKey]
     [ApiController]
     public class MembersController(IMemberService memberService) : ControllerBase
     {

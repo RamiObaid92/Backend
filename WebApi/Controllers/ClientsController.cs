@@ -8,7 +8,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [Authorize(Roles = "Admin")]
-    [RequireKey("AdminKey")]
+    [UseAdminApiKey]
     [ApiController]
     public class ClientsController(IClientService clientService) : ControllerBase
     {

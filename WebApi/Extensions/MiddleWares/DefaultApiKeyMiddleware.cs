@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-
-namespace WebApi.Extensions.Middlewares
+﻿namespace WebApi.Extensions.Middlewares
 {
     public class DefaultApiKeyMiddleware(RequestDelegate next, IConfiguration configuration)
     {

@@ -17,7 +17,6 @@ namespace WebApi.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class AuthController(IUserService userService, UserManager<UserEntity> userManager) : ControllerBase
     {
@@ -53,7 +52,6 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("signup")]
-        [AllowAnonymous]
         [SwaggerOperation(Summary = "Register new user")]
         [SwaggerRequestExample(typeof(SignUpForm), typeof(SignUpDataExample))]
         [SwaggerResponseExample(400, typeof(UserValidationErrorExample))]
@@ -69,7 +67,6 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("signin")]
-        [AllowAnonymous]
         [SwaggerOperation(Summary = "Sign in user")]
         [SwaggerRequestExample(typeof(SignInForm), typeof(SignInDataExample))]
         [SwaggerResponseExample(401, typeof(SignInErrorExample))]
@@ -96,8 +93,8 @@ namespace WebApi.Controllers
             return Ok(new { user = result.User});
         }
 
-        [RequireKey("AdminKey", "UserKey")]
         [HttpPost("signout")]
+        [Authorize]
         [SwaggerOperation(Summary = "Sign out current user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
