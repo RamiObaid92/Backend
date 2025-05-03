@@ -81,7 +81,7 @@ public class ProjectService(IProjectRepository projectRepository, ICacheHandler<
     private async Task<IEnumerable<ProjectModel>> UpdateCacheAsync()
     {
         var entities = await _projectRepository.GetAllAsync();
-        var models = entities.Select(ProjectFactory.ToModel).ToList();
+        var models = entities.Select(ProjectFactory.ToModel).OrderByDescending(x => x.EndDate).ToList();
 
         _cacheHandler.SetCache(_cacheKey, models);
         return models;

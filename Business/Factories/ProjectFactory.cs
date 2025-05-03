@@ -19,7 +19,7 @@ public static class ProjectFactory
             EndDate = formData.EndDate,
             ProjectOwnerId = formData.ProjectOwnerId,
             ClientId = formData.ClientId,
-            StatusId = formData.StatusId,
+            StatusId = formData.StatusId
         };
     }
 
@@ -48,7 +48,8 @@ public static class ProjectFactory
             ImageFileName = entity.ImageFileName,
             ProjectName = entity.ProjectName,
             Description = entity.Description,
-            EndDate = entity.EndDate,
+            CreatedDate = entity.CreatedDate,
+            EndDate = entity.EndDate
         };
     }
 }
